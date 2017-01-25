@@ -38,10 +38,14 @@ namespace LiveTv.Vdr.RestfulApi
                 EpisodeTitle = eventRes.Short_text, //TODO: check if correct data
 
                 IsHD = eventRes.Channel_name.ToLower().Contains("hd"),
-                IsNews = eventRes.Contents.FindAll(str => str.ToLower().Contains("news")).Count > 0,
-                IsMovie = eventRes.Contents.FindAll(str => str.ToLower().Contains("movie")).Count > 0,
-                IsKids = eventRes.Contents.FindAll(str => str.ToLower().Contains("kid")).Count > 0,
-                IsSports = eventRes.Contents.FindAll(str => str.ToLower().Contains("sport")).Count > 0,
+                IsNews = eventRes.Contents.FindAll(str => str.ToLower().Contains("news")).Count > 0 ||
+                         eventRes.Description.Contains("News."),
+                IsMovie = eventRes.Contents.FindAll(str => str.ToLower().Contains("movie")).Count > 0 ||
+                          eventRes.Description.Contains("Movie."),
+                IsKids = eventRes.Contents.FindAll(str => str.ToLower().Contains("kid")).Count > 0 ||
+                          eventRes.Description.Contains("Children."),
+                IsSports = eventRes.Contents.FindAll(str => str.ToLower().Contains("sport")).Count > 0 ||
+                          eventRes.Description.Contains("Sports."),
 
                 // Vdr allows multiple images, emby only one => use first image
                 HasImage = eventRes.Images > 0,
